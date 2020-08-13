@@ -1,6 +1,8 @@
-import React from 'react';
-import logo from './logo.svg';
+import React from "react";
+import styled from "styled-components";
+
 import './App.css';
+
 import { fetchOrganization } from "./transport.js";
 
 /*
@@ -13,26 +15,18 @@ import { fetchOrganization } from "./transport.js";
     - filters depend on api
 */
 
+const Page = styled.div``;
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+class App extends React.Component {
+  render() {
+    return (
+      <Page>
+        Works
+      </Page>
+    );
+  }
 }
+
 
 export default App;
