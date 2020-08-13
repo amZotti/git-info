@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import transport from "./transport.js";
+import { fetchOrganization } from "./transport.js";
 
 /*
   1. Instantiate git interface -> https://octokit.github.io/rest.js/v18
@@ -12,6 +12,7 @@ import transport from "./transport.js";
   3. Repo/info list view with filters (ux)
     - filters depend on api
 */
+
 
 function App() {
   return (

@@ -4,6 +4,6 @@
 
 	Instructions on how to acquire token -> https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token
 */
-const personalAccessToken = "";
+const personalAccessToken = process.env.SECRET;
 
 export default personalAccessToken;
