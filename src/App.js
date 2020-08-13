@@ -4,6 +4,7 @@ import styled from "styled-components";
 import './App.css';
 
 import { fetchOrganization } from "./transport.js";
+import { getGithubLink } from "./utils.js";
 
 /*
   1. Instantiate git interface -> https://octokit.github.io/rest.js/v18
@@ -75,11 +76,35 @@ const Notification = styled.h3`
 
 const finderText = "Find an Orginzation by name";
 
-const baseGithubUrl = "https://github.com";
-const getGithubLink = (slug, innerText) => <a href={baseGithubUrl + slug} target="_blank">{innerText}</a>;
-
 
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      organizationName: "",
+    };
+  }
+
+  onChange = e => {
+    this.setState({ organizationName: e.target.value });
+  }
+
+  displayResults = () => {
+    fetchOrganization(this.state.organizationName)
+      .then(repositories => this.setState({ repositories }))
+      .catch(e => {
+        console.log("error: ", e);
+      });
+   
+  }
+
+  detectEnter = e => {
+    if (e.key === "Enter") {
+      this.displayResults();
+    }
+  }
+
   render() {
     return (
       <Page>
@@ -88,6 +113,9 @@ class App extends React.Component {
             placeholder={finderText}
             aria-label={finderText}
             type="text"
+            onChange={this.onChange}
+            onKeyDown={this.detectEnter}
+            value={this.state.organizationName}
           />
         </Menu>
         <Main>
