@@ -1,6 +1,17 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import transport from "./transport.js";
+
+/*
+  1. Instantiate git interface -> https://octokit.github.io/rest.js/v18
+      - Download
+      - Authenticate (ux)
+  2. Orginzation selection (ux)
+    - Number or search (depending on api)
+  3. Repo/info list view with filters (ux)
+    - filters depend on api
+*/
 
 function App() {
   return (
