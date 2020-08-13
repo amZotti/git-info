@@ -69,9 +69,18 @@ const Find = styled.input`
   vertical-align: middle;
 `;
 
+const Code = styled.code`
+  overflow-x: auto;
+  word-wrap: break-word;
+`;
+
 const Notification = styled.h3`
   margin: 16px 0;
   font-size: 24px;
+`;
+
+const Bold = styled.span`
+  font-weight: 600;
 `;
 
 const finderText = "Find an Orginzation by name";
@@ -83,20 +92,26 @@ class App extends React.Component {
 
     this.state = {
       organizationName: "",
+      repositories: [],
+      error: false,
+      errorState: "",
     };
   }
 
   onChange = e => {
-    this.setState({ organizationName: e.target.value });
+    this.setState({ organizationName: e.target.value, error: false, errorState: "" });
   }
 
   displayResults = () => {
     fetchOrganization(this.state.organizationName)
-      .then(repositories => this.setState({ repositories }))
+      .then(repositories => this.setState({ repositories, error: false, errorState: "" }))
       .catch(e => {
-        console.log("error: ", e);
+        this.setState({
+          error: true,
+          errorState: e.message,
+          repositories: [],
+        })
       });
-   
   }
 
   detectEnter = e => {
@@ -104,6 +119,8 @@ class App extends React.Component {
       this.displayResults();
     }
   }
+
+
 
   render() {
     return (
@@ -119,10 +136,32 @@ class App extends React.Component {
           />
         </Menu>
         <Main>
-          <Notification>Submit an organization name to proceed</Notification>
-          <p>You could search {getGithubLink("/search","all of Github")} or try an {getGithubLink("/search/advanced","advanced search")}.</p>
+          {this.renderMain()}
         </Main>
       </Page>
+    );
+  }
+
+  renderMain = () => {
+
+    if (this.state.error) {
+      return (
+        <React.Fragment>
+          <Notification>Houston, we have a problem</Notification>
+          <Code>
+            Error: {this.state.errorState}
+          </Code>
+          <p>We could not find the specified organization: <Bold>{this.state.organizationName}</Bold></p>
+          <p>Double check to make sure the organization name you entered is correct and feel free to try again! (:</p>
+        </React.Fragment>
+      );
+    }
+
+    return (
+      <React.Fragment>
+        <Notification>Submit an organization name to proceed</Notification>
+        <p>You could search {getGithubLink("/search","all of Github")} or try an {getGithubLink("/search/advanced","advanced search")}.</p>
+      </React.Fragment>
     );
   }
 }
