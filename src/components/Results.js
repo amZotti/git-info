@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { fetchCommits } from "../transport.js";
 
 const Cards = styled.div`
 	overflow: scroll;
@@ -14,18 +15,11 @@ const Container = styled.div`
     border-radius: 6px;
 `;
 
-const Content = styled.div`
-
-`;
+const Content = styled.div``;
 
 const Name = styled.div`
 	font-weight: 600;
 	line-height: 1.25;
-`;
-
-const DeadLink = styled.a`
-	text-decoration: none;
-	color: #24292e
 `;
 
 const Description = styled.div`
@@ -41,7 +35,7 @@ const Stats = styled.p`
 	font-size: 12px;
 	margin-top: 8px;
 	margin-bottom: 0;
-	color: #586069;
+	color: var(--casual-color);
 `;
 
 const Info = styled.span`
@@ -51,15 +45,15 @@ const Info = styled.span`
 const Value = styled.span`
 	font-weight: 600;
 	color: black;
-`;
+`;	
 
 const renderInfo = (field, value) => <Info>{field} <Value>{value}</Value></Info>
 
-const Card = ({ name, size, language, created_at, open_issues, forks, watchers, description, html_url }) => (
+const Card = ({ name, size, language, created_at, open_issues, forks, watchers, description, html_url, full_name, viewCommits }) => (
 	<Container>
 		<Content>
 			<Name>
-				<DeadLink href={html_url} target="_blank">{name}</DeadLink>
+				<a href={html_url} target="_blank">{name}</a>
 			</Name>
 			<Description>
 				<DescriptionText>{description}</DescriptionText>
@@ -71,6 +65,7 @@ const Card = ({ name, size, language, created_at, open_issues, forks, watchers, 
 				{renderInfo("Watchers", watchers)}
 				{renderInfo("Size", size)}
 				{renderInfo("Issues", open_issues)}
+				{renderInfo("", <a href="#" onClick={() => viewCommits(...full_name.split("/"))}>Latest Commits</a>)}
 			</Stats>
 		</Content>
 	</Container>
@@ -102,10 +97,24 @@ const Card = ({ name, size, language, created_at, open_issues, forks, watchers, 
 */
 
 class Results extends React.Component {
+	constructor(props) {
+		super(props);
+
+		this.state = { commits: [] };
+	}
+	viewCommits = (org, repo) => {
+		fetchCommits(org, repo).then(commits => this.setState({ commits }));
+	}
+
+	renderCard = repository => {
+		return <Card {...repository} key={repository.full_name} viewCommits={this.viewCommits} />
+	}
+
 	render() {
+
 		return (
 			<Cards>
-				{this.props.repositories.map(Card)}
+				{this.props.repositories.map(this.renderCard)}
 			</Cards>
 		)
 	}

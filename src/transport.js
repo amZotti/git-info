@@ -58,7 +58,7 @@ export async function fetchOrganization(org) {
 
 */
 export async function fetchCommits(owner, repo) {
-	const { response } = await api.repos.listCommits({ owner, repo });
-	return response
+	const { data } = await api.repos.listCommits({ owner, repo });
+	return data
 };
 
