@@ -64,8 +64,15 @@ class App extends React.Component {
   }
 
   onChange = e => {
-    this.setState({ organizationName: e.target.value, error: false, errorState: "" });
+    this.setState({ 
+      organizationName: e.target.value, 
+      error: false, 
+      errorState: "",
+      repositories: [],
+    });
   }
+
+  reset = () => this.setState({ repositories: [] });
 
   displayResults = () => {
     fetchOrganization(this.state.organizationName)
@@ -113,7 +120,7 @@ class App extends React.Component {
     if (this.state.error) {
       return <Error {...this.state} />
     } else if (this.state.repositories.length) {
-      return <Results repositories={this.state.repositories} />;
+      return <Results repositories={this.state.repositories} reset={this.reset} />;
     } else {
       return <Introduction />;
     }

@@ -47,7 +47,12 @@ const Value = styled.span`
 	color: black;
 `;	
 
-const Title = styled.h1``;
+const Back = styled.a`
+	position: absolute;
+    top: 18px;
+    right: 18px;
+`;
+
 
 const renderInfo = (field, value) => <Info>{field} <Value>{value}</Value></Info>
 
@@ -94,7 +99,8 @@ const CommitCard = ({ commit: { author: { name }, message, comment_count } , com
 
 /*
 	PropTypes:
-
+		reset: <Function>
+		
 		repositories: 
 			ArrayOf(<Object {
 			    "forks": <Number>,
@@ -146,11 +152,20 @@ class Results extends React.Component {
 		return <CommitCard {...commit} key={commit.sha} />
 	}
 
+	componentDidUnmount() {
+		this.resetCommits(); 
+	}
+
+	resetCommits = () => {
+		this.setState({ commits: [] });
+	}
+
 	render() {
 		if (this.state.commits.length) {
 			return (
 				<React.Fragment>
-					<Title>Commits</Title>
+					<Back href="#" onClick={this.resetCommits}>Back</Back>
+					<h1>Commits</h1>
 					<Cards>
 						{this.state.commits.map(this.renderCommitCard)}
 					</Cards>
@@ -161,7 +176,8 @@ class Results extends React.Component {
 
 		return (
 			<React.Fragment>
-				<Title>Repositories</Title>
+				<Back href="#" onClick={this.props.reset}>Back</Back>
+				<h1>Repositories</h1>
 				<Cards>
 					{this.props.repositories.map(this.renderRepoCard)}
 				</Cards>
