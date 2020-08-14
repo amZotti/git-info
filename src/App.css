@@ -1,16 +1,14 @@
 :root {
   --base-color: #f6f8fa;
-  --hover-color: #0366d6;
-  --action-color: #24292e;
+  --link-color: #0366d6;
   --casual-color: #586069;
 }
 
 a:hover, a:active {
-	color: var(--hover-color)!important;
 	outline-width: 0;
 }
 
 a {
+	color: var(--link-color)!important;
 	text-decoration: none;
-	color: var(--action-color);
 }
