@@ -12,3 +12,7 @@ a {
 	color: var(--link-color)!important;
 	text-decoration: none;
 }
+
+pre {
+	display: inline-block;
+}
