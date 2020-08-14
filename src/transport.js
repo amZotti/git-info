@@ -39,3 +39,26 @@ export async function fetchOrganization(org) {
 	return repos;
 };
 
+
+/*
+
+		Parameter:
+			owner: <String> -> Login name for a given organization
+			repo: <String> -> repo name
+
+		Returns: 
+			<Promise>
+				Resolves to:
+					ArrayOf(<Object> {
+						author: <Object> {login: <String>, avatar_url: <String> }
+						comments_url: <String>
+						html_url: <String>
+						sha: <String>
+					})
+
+*/
+export async function fetchCommits(owner, repo) {
+	const { response } = await api.repos.listCommits({ owner, repo });
+	return response
+};
+
