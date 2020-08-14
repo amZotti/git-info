@@ -1,68 +1,49 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+#Getting Started
 
-## Available Scripts
+### Setting authentication key
 
-In the project directory, you can run:
+Setting your Github PAC (personal access token) is required to use the application.
 
-### `yarn start`
+Fortunately, acquiring your PAC is easy and fast - Instructions can be found [here](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token).
 
-Runs the app in the development mode.<br />
+Once you have your PAC - there are two ways to set it.
+
+1. In the root of the project directory, simply type  `SECRET=<your token here>`
+
+2. Open /src/secret.js and change line 7 to read `const personalAccessToken = <your token here>;`
+
+
+### Downloading dependencies
+
+Type `yarn` from the root of the project directory. If this command is not found, run `brew install yarn`. See yarn [documentation](https://classic.yarnpkg.com/en/docs/install/#mac-stable) for further assistance. 
+
+
+Running the app requires a minimum npm version of `5.2` and a minimum node version of `10.16.0`; This app was developed with `node=v11.12.0` and `npm=6.7.0`. 
+
+
+
+### Running the app: `yarn start`
+
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
 
-### `yarn test`
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `yarn build`
+#Test Cases
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. App should default to displaying an Introduction in the main pane, which provides brief instructions on how to use the app
+	- External links to Github search should successfully redirect user in a new tab
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+2. Typing an invalid organization name into the left hand input and pressing enter should yield the error view
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+3. Typing into the left hand input should reset the error view back to the introduction view
 
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+4. Typing a valid organization name into the left hand input and pressing enter should yield the Results view
+		- Results view should be scrollable
+		- Results view should resize in a reasonable manner for different view port dimensions
+		- Clicking "Back" should revert back to the Introduction
+		- Modifying the left-hand input should reset the app back to the introduction view
+		- Clicking on repository name link should direct the user to the corresponding github page
+		- Clicking on "Commits" link should cause a list of commits to render
+			- Clicking author username link should direct the user to the corresponding github page for that commit
+			- Clicking "Back" should revert back to the organization results
