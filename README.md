@@ -1,4 +1,4 @@
-#Getting Started
+# Getting Started
 
 ### Setting authentication key
 
@@ -28,8 +28,7 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 
 
-
-#Test Cases
+# Test Cases
 
 1. App should default to displaying an Introduction in the main pane, which provides brief instructions on how to use the app
 	- External links to Github search should successfully redirect user in a new tab
@@ -49,7 +48,7 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 			- Clicking "Back" should revert back to the organization results
 
 
-#Technical Considerations
+# Technical Considerations
 
 ### API
 
@@ -85,10 +84,10 @@ Given the time constraints specified - there is still plenty to improve. Below i
 	4. Make it so the left-hand inbox bounce uses a debounced automatic lookup instead of having to manually press enter
 		- searches for results 300ms or so after a user stops
 	5. Convert manual test cases specified in README into actual automatic test cases
-	6. Single Warning in console relating to the way I am using the href attribute in Results.js line 75
+	6. Single Warning in console relating to the use of the href attribute in Results.js line 75
 
 
-#UI/UX Considerations
+# UI/UX Considerations
 
 Initially I began testing different color schemas and thinking of optimal page layouts. For the sake of brevity, I decided to just mimic the look and feel of Github as best as possible given limited time. Overall, I think the UI/UX looks quite polished given the time spent on it. The only thing I would change is to make it so the left-hand text box is debounced instead of requiring an enter keystroke. Also, I feel like the left hand side is a bit empty - I considered doing an additional API call to retrieve metadata regarding the logged in user and putting some of that metadata in the blank area (Think like a profile card), but decided against it due to the time constraints.
 

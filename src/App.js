@@ -116,7 +116,6 @@ class App extends React.Component {
   }
 
   renderMain = () => {
-
     if (this.state.error) {
       return <Error {...this.state} />
     } else if (this.state.repositories.length) {
