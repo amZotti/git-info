@@ -47,9 +47,11 @@ const Value = styled.span`
 	color: black;
 `;	
 
+const Title = styled.h1``;
+
 const renderInfo = (field, value) => <Info>{field} <Value>{value}</Value></Info>
 
-const Card = ({ name, size, language, created_at, open_issues, forks, watchers, description, html_url, full_name, viewCommits }) => (
+const RepoCard = ({ name, size, language, created_at, open_issues, forks, watchers, description, html_url, full_name, viewCommits }) => (
 	<Container>
 		<Content>
 			<Name>
@@ -69,30 +71,59 @@ const Card = ({ name, size, language, created_at, open_issues, forks, watchers, 
 			</Stats>
 		</Content>
 	</Container>
-)
+);
+
+
+const CommitCard = ({ commit: { author: { name }, message, comment_count } , comments_url, html_url, sha }) => (
+	<Container>
+		<Content>
+			<Name>
+				<a href={html_url} target="_blank">{name}</a>
+			</Name>
+			<Description>
+				<DescriptionText>{message}</DescriptionText>
+			</Description>
+			<Stats>
+				{renderInfo("sha", sha)}
+				{renderInfo("Comments", comment_count)}
+			</Stats>
+		</Content>
+	</Container>
+);
 
 
 /*
 	PropTypes:
 
-	repositories: 
-		ArrayOf(<Object {
-		    "forks": <Number>,
-		    "open_issues": <Number>,
-		    "watchers": <Number>,
-		    "size": <Number>,
-		    "stargazers_count": <Number>,
-		    "watchers_count": <Number>,
-		    "language": "<String>",
-			"created_at": "<String>",
-		    "updated_at": "<String>",
-		    "description": <String>,
-		    "html_url": <String>,
-		    "watchers":  <Number>
-		    "pushed_at": <String>,
-		    "name": <String>,
-		    "full_name": <String>,
-	 }> )
+		repositories: 
+			ArrayOf(<Object {
+			    "forks": <Number>,
+			    "open_issues": <Number>,
+			    "watchers": <Number>,
+			    "size": <Number>,
+			    "stargazers_count": <Number>,
+			    "watchers_count": <Number>,
+			    "language": "<String>",
+				"created_at": "<String>",
+			    "updated_at": "<String>",
+			    "description": <String>,
+			    "html_url": <String>,
+			    "watchers":  <Number>
+			    "pushed_at": <String>,
+			    "name": <String>,
+			    "full_name": <String>,
+		 }> )
+
+
+	State:
+
+		commits:
+			ArrayOf(<Object> {
+				author: <Object> {login: <String>, avatar_url: <String> }
+				comments_url: <String>
+				html_url: <String>
+				sha: <String>
+			})
 
 */
 
@@ -106,17 +137,36 @@ class Results extends React.Component {
 		fetchCommits(org, repo).then(commits => this.setState({ commits }));
 	}
 
-	renderCard = repository => {
-		return <Card {...repository} key={repository.full_name} viewCommits={this.viewCommits} />
+	renderRepoCard = repository => {
+		return <RepoCard {...repository} key={repository.full_name} viewCommits={this.viewCommits} />
+	}
+
+	renderCommitCard = commit => {
+		console.log(commit)
+		return <CommitCard {...commit} key={commit.sha} />
 	}
 
 	render() {
+		if (this.state.commits.length) {
+			return (
+				<React.Fragment>
+					<Title>Commits</Title>
+					<Cards>
+						{this.state.commits.map(this.renderCommitCard)}
+					</Cards>
+				</React.Fragment>
+			);
+		}
+
 
 		return (
-			<Cards>
-				{this.props.repositories.map(this.renderCard)}
-			</Cards>
-		)
+			<React.Fragment>
+				<Title>Repositories</Title>
+				<Cards>
+					{this.props.repositories.map(this.renderRepoCard)}
+				</Cards>
+			</React.Fragment>
+		);
 	}
 }
 
