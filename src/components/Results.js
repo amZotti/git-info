@@ -60,7 +60,7 @@ const RepoCard = ({ name, size, language, created_at, open_issues, forks, watche
 	<Container>
 		<Content>
 			<Name>
-				<a href={html_url} target="_blank">{name}</a>
+				<a href={html_url} target="_blank" rel="noopener noreferrer">{name}</a>
 			</Name>
 			<Description>
 				<DescriptionText>{description}</DescriptionText>
@@ -83,7 +83,7 @@ const CommitCard = ({ commit: { author: { name }, message, comment_count } , com
 	<Container>
 		<Content>
 			<Name>
-				<a href={html_url} target="_blank">{name}</a>
+				<a href={html_url} target="_blank" rel="noopener noreferrer">{name}</a>
 			</Name>
 			<Description>
 				<DescriptionText>{message}</DescriptionText>
@@ -100,7 +100,7 @@ const CommitCard = ({ commit: { author: { name }, message, comment_count } , com
 /*
 	PropTypes:
 		reset: <Function>
-		
+
 		repositories: 
 			ArrayOf(<Object {
 			    "forks": <Number>,
@@ -148,13 +148,9 @@ class Results extends React.Component {
 	}
 
 	renderCommitCard = commit => {
-		console.log(commit)
 		return <CommitCard {...commit} key={commit.sha} />
 	}
 
-	componentDidUnmount() {
-		this.resetCommits(); 
-	}
 
 	resetCommits = () => {
 		this.setState({ commits: [] });
