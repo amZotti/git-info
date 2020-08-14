@@ -4,7 +4,11 @@ import styled from "styled-components";
 import './App.css';
 
 import { fetchOrganization } from "./transport.js";
-import { getGithubLink } from "./utils.js";
+
+import Error from "./components/Error.js"
+import Introduction from "./components/Introduction.js"
+import Results from "./components/Results.js";
+
 
 /*
   1. Instantiate git interface -> https://octokit.github.io/rest.js/v18
@@ -38,17 +42,6 @@ const Main = styled.section`
   flex-direction: column;
 `;
 
-const Introduction = styled.section`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-`;
-
-const Text = styled.div`
-  font-family: cursive;
-  color: var(--cerise);
-`;
 
 const Menu = styled.menu`
   min-width: 250px;
@@ -67,20 +60,6 @@ const Find = styled.input`
   line-height: 20px;
   color: #24292e;
   vertical-align: middle;
-`;
-
-const Code = styled.code`
-  overflow-x: auto;
-  word-wrap: break-word;
-`;
-
-const Notification = styled.h3`
-  margin: 16px 0;
-  font-size: 24px;
-`;
-
-const Bold = styled.span`
-  font-weight: 600;
 `;
 
 const finderText = "Find an Orginzation by name";
@@ -120,8 +99,6 @@ class App extends React.Component {
     }
   }
 
-
-
   render() {
     return (
       <Page>
@@ -145,24 +122,12 @@ class App extends React.Component {
   renderMain = () => {
 
     if (this.state.error) {
-      return (
-        <React.Fragment>
-          <Notification>Houston, we have a problem</Notification>
-          <Code>
-            Error: {this.state.errorState}
-          </Code>
-          <p>We could not find the specified organization: <Bold>{this.state.organizationName}</Bold></p>
-          <p>Double check to make sure the organization name you entered is correct and feel free to try again! (:</p>
-        </React.Fragment>
-      );
+      return <Error {...this.state} />
+    } else if (this.state.repositories.length) {
+      return <Results repositories={this.state.repositories} />;
+    } else {
+      return <Introduction />;
     }
-
-    return (
-      <React.Fragment>
-        <Notification>Submit an organization name to proceed</Notification>
-        <p>You could search {getGithubLink("/search","all of Github")} or try an {getGithubLink("/search/advanced","advanced search")}.</p>
-      </React.Fragment>
-    );
   }
 }
 
