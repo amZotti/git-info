@@ -9,20 +9,6 @@ import Error from "./components/Error.js"
 import Introduction from "./components/Introduction.js"
 import Results from "./components/Results.js";
 
-
-/*
-  1. Instantiate git interface -> https://octokit.github.io/rest.js/v18
-      - Download
-      - Authenticate (ux)
-  2. Orginzation selection (ux)
-    - Number or search (depending on api)
-  3. Repo/info list view with filters (ux)
-    - filters depend on api
-
-
-  color scheme: https://coolors.co/000000-3d2645-832161-da4167-f0eff4
-*/
-
 const Page = styled.div`
   height: 100vh;
   width: 100vw;
@@ -83,7 +69,10 @@ class App extends React.Component {
 
   displayResults = () => {
     fetchOrganization(this.state.organizationName)
-      .then(repositories => this.setState({ repositories, error: false, errorState: "" }))
+      .then(repositories => {
+        repositories.sort((a,b) => b.forks - a.forks);
+        this.setState({ repositories, error: false, errorState: "" })
+      })
       .catch(e => {
         this.setState({
           error: true,
